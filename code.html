@@ -3,100 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoCompare - Sustainability & Cost Tool</title>
+    <title>EcoCompare - Sustainability & Cost Analysis</title>
     <style>
-        /* CSS Variables for easy color management */
+        /* Color Palette: Light Green and Sky Blue */
         :root {
-            --leaf-green: #99ff99;
-            --sky-blue: #87ceeb;
-            --dark-green: #2d5a27;
-            --soft-white: #f0fdf4;
-            --border-gray: #cccccc;
+            --nature-green: #a8e6cf; /* Light Green */
+            --sky-blue: #dcedc1;    /* Pale Green-Blue */
+            --header-blue: #81d4fa; /* Sky Blue */
+            --dark-text: #2c3e50;
+            --white: #ffffff;
+            --accent-green: #56ab2f;
         }
 
-        /* Basic Reset and Body Styles */
+        /* Basic Setup */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, var(--header-blue), var(--white));
+            color: var(--dark-text);
             margin: 0;
             padding: 0;
-            background-color: var(--soft-white);
-            color: #333;
+            min-height: 100vh;
         }
 
-        /* Header / Navbar */
+        /* Header Section */
         header {
-            background-color: var(--leaf-green);
-            padding: 20px;
+            background-color: var(--nature-green);
+            padding: 30px;
             text-align: center;
-            border-bottom: 5px solid var(--sky-blue);
+            border-bottom: 4px solid var(--accent-green);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        nav {
-            margin-top: 10px;
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            color: #1b5e20;
         }
 
-        nav a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: var(--dark-green);
-            font-weight: bold;
+        /* Main Content Container */
+        .main-container {
+            max-width: 850px;
+            margin: 40px auto;
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(to bottom, var(--sky-blue), var(--soft-white));
-            padding: 50px 20px;
+        .intro-text {
             text-align: center;
-        }
-
-        /* Main Comparison Tool Area */
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .compare-inputs {
-            display: flex;
-            justify-content: space-around;
-            gap: 20px;
             margin-bottom: 30px;
         }
 
-        .input-box {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid var(--sky-blue);
-            border-radius: 8px;
-            background-color: #f9f9f9;
+        /* Selection Area */
+        .selection-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 25px;
         }
 
-        select, button {
+        .select-box {
+            flex: 1;
+            padding: 20px;
+            background-color: #f1f8e9;
+            border: 2px solid var(--nature-green);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #388e3c;
+        }
+
+        select {
             width: 100%;
             padding: 10px;
-            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
             font-size: 1rem;
         }
 
-        button {
-            background-color: var(--dark-green);
+        /* Big Action Button */
+        .compare-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--accent-green);
             color: white;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1.2rem;
             font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
         }
 
-        button:hover {
-            background-color: #1e3d1a;
+        .compare-btn:hover {
+            background-color: #388e3c;
         }
 
-        /* Results Table */
-        .results-section {
-            margin-top: 30px;
+        /* Results Table Styles */
+        #results-area {
+            margin-top: 40px;
+            display: none; /* Hidden until button is clicked */
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         table {
@@ -106,172 +125,196 @@
         }
 
         th, td {
-            border: 1px solid var(--border-gray);
-            padding: 12px;
-            text-align: center;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            text-align: left;
         }
 
         th {
-            background-color: var(--leaf-green);
+            background-color: #e1f5fe;
+            color: #0277bd;
+        }
+
+        .feature-col {
+            font-weight: bold;
+            background-color: #f9f9f9;
+            width: 30%;
+        }
+
+        .verdict-row {
+            text-align: center;
+            background-color: #f1f8e9;
+            font-size: 1.1rem;
+            color: #2e7d32;
+            font-weight: bold;
         }
 
         /* Footer */
         footer {
             text-align: center;
             padding: 20px;
-            background-color: #e0e0e0;
             margin-top: 50px;
             font-size: 0.9rem;
-        }
-
-        /* Beginner-friendly Responsive Design */
-        @media (max-width: 600px) {
-            .compare-inputs {
-                flex-direction: column;
-            }
+            color: #666;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>🌿 EcoCompare 💧</h1>
-        <p>Your First-Year Project for a Greener Tomorrow</p>
-        <nav>
-            <a href="#">Home</a>
-            <a href="#tool">Compare Tool</a>
-            <a href="#about">Why Sustainability?</a>
-        </nav>
-    </header>
+<header>
+    <h1>🌍 EcoCompare Tool</h1>
+    <p>Compare Sustainability & Costs for a Better Future</p>
+</header>
 
-    <div class="hero">
-        <h2>Choose Two Items to Compare</h2>
-        <p>Find out which choice is better for your wallet and the planet.</p>
+<div class="main-container">
+    <div class="intro-text">
+        <h2>Comparison Calculator</h2>
+        <p>Select two options below to see how they compare in terms of environment impact and price.</p>
     </div>
 
-    <div class="container" id="tool">
-        <div class="compare-inputs">
-            <div class="input-box">
-                <label for="item1"><strong>Select Option A:</strong></label>
-                <select id="item1">
-                    <option value="coal">Coal Energy</option>
-                    <option value="solar" selected>Solar Power</option>
-                    <option value="plastic">Plastic Bottles</option>
-                    <option value="glass">Glass Bottles</option>
-                </select>
-            </div>
-
-            <div class="input-box">
-                <label for="item2"><strong>Select Option B:</strong></label>
-                <select id="item2">
-                    <option value="coal" selected>Coal Energy</option>
-                    <option value="solar">Solar Power</option>
-                    <option value="plastic">Plastic Bottles</option>
-                    <option value="glass">Glass Bottles</option>
-                </select>
-            </div>
+    <div class="selection-grid">
+        <div class="select-box">
+            <label for="item1">Choose Option A:</label>
+            <select id="item1">
+                <option value="solar">Solar Energy</option>
+                <option value="coal">Coal Energy</option>
+                <option value="wind">Wind Power</option>
+                <option value="plastic">Plastic Packaging</option>
+                <option value="glass" selected>Glass Packaging</option>
+            </select>
         </div>
 
-        <button onclick="compareItems()">Click to Compare Now!</button>
-
-        <div class="results-section" id="results" style="display:none;">
-            <h3>📊 Comparison Result</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th id="name1">Option A</th>
-                        <th id="name2">Option B</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Estimated Cost</strong></td>
-                        <td id="cost1">$0</td>
-                        <td id="cost2">$0</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Eco-Friendly Score</strong></td>
-                        <td id="eco1">0/10</td>
-                        <td id="eco2">0/10</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Verdict</strong></td>
-                        <td colspan="2" id="verdict">Please select items.</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="select-box">
+            <label for="item2">Choose Option B:</label>
+            <select id="item2">
+                <option value="solar">Solar Energy</option>
+                <option value="coal" selected>Coal Energy</option>
+                <option value="wind">Wind Power</option>
+                <option value="plastic">Plastic Packaging</option>
+                <option value="glass">Glass Packaging</option>
+            </select>
         </div>
     </div>
 
-    <div class="container" id="about">
-        <h3>Why did I build this?</h3>
-        <p>As a first-year student, I want to show how technology can help people make better choices. Using "Green" energy might cost more at first, but it saves the planet in the long run!</p>
+    <button class="compare-btn" onclick="runComparison()">⚡ Compare Now</button>
+
+    <div id="results-area">
+        <h3>Analysis Results:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Key Feature</th>
+                    <th id="header1">Option 1</th>
+                    <th id="header2">Option 2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="feature-col">Monthly/Unit Cost</td>
+                    <td id="cost1">-</td>
+                    <td id="cost2">-</td>
+                </tr>
+                <tr>
+                    <td class="feature-col">Eco-Score</td>
+                    <td id="eco1">-</td>
+                    <td id="eco2">-</td>
+                </tr>
+                <tr>
+                    <td class="feature-col">Reasoning</td>
+                    <td id="reason1">-</td>
+                    <td id="reason2">-</td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="verdict-row" id="verdict-text">
+                        Result will appear here.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+</div>
 
-    <footer>
-        <p>&copy; 2024 Sustainable Energy Assignment | Designed by [Your Name]</p>
-    </footer>
+<footer>
+    <p>Created for University Assignment - Sustainable Computing 2026</p>
+</footer>
 
-    <script>
-        // Simple data object for the comparison
-        const data = {
-            solar: { name: "Solar Power", cost: "$$$ (High Setup)", eco: "9/10", score: 9 },
-            coal: { name: "Coal Energy", cost: "$ (Low Setup)", eco: "2/10", score: 2 },
-            plastic: { name: "Plastic Bottles", cost: "$ (Cheap)", eco: "1/10", score: 1 },
-            glass: { name: "Glass Bottles", cost: "$$ (Moderate)", eco: "7/10", score: 7 }
-        };
-
-        function compareItems() {
-            // Get values from selects
-            const val1 = document.getElementById('item1').value;
-            const val2 = document.getElementById('item2').value;
-
-            // Update Table Header Names
-            document.getElementById('name1').innerText = data[val1].name;
-            document.getElementById('name2').innerText = data[val2].name;
-
-            // Update Data
-            document.getElementById('cost1').innerText = data[val1].cost;
-            document.getElementById('cost2').innerText = data[val2].cost;
-            document.getElementById('eco1').innerText = data[val1].eco;
-            document.getElementById('eco2').innerText = data[val2].eco;
-
-            // Show Result Section
-            document.getElementById('results').style.display = "block";
-
-            // Simple Logic for Verdict
-            let verdictText = "";
-            if (data[val1].score > data[val2].score) {
-                verdictText = data[val1].name + " is more sustainable!";
-            } else if (data[val1].score < data[val2].score) {
-                verdictText = data[val2].name + " is more sustainable!";
-            } else {
-                verdictText = "Both have the same sustainability impact.";
-            }
-            document.getElementById('verdict').innerText = verdictText;
+<script>
+    // Data Object: This stores all our comparison information
+    const itemsData = {
+        solar: {
+            name: "Solar Energy",
+            cost: "High (Initial Setup)",
+            eco: "9.5/10",
+            score: 95,
+            reason: "Uses free sunlight. No carbon emissions during energy production."
+        },
+        coal: {
+            name: "Coal Energy",
+            cost: "Low (Operational)",
+            eco: "2/10",
+            score: 20,
+            reason: "Releases huge amounts of CO2 and toxic particles into the air."
+        },
+        wind: {
+            name: "Wind Power",
+            cost: "Medium",
+            eco: "9/10",
+            score: 90,
+            reason: "Clean renewable source, though turbines require significant space."
+        },
+        plastic: {
+            name: "Plastic Packaging",
+            cost: "Very Low",
+            eco: "1/10",
+            score: 10,
+            reason: "Non-biodegradable material that pollutes oceans and wildlife."
+        },
+        glass: {
+            name: "Glass Packaging",
+            cost: "Medium",
+            eco: "7.5/10",
+            score: 75,
+            reason: "100% recyclable forever, but heavy to transport (uses more fuel)."
         }
-    </script>
+    };
+
+    function runComparison() {
+        // 1. Get the values the user selected
+        const choiceA = document.getElementById('item1').value;
+        const choiceB = document.getElementById('item2').value;
+
+        // 2. Fetch the data for those choices
+        const dataA = itemsData[choiceA];
+        const dataB = itemsData[choiceB];
+
+        // 3. Update the Table Headers
+        document.getElementById('header1').innerText = dataA.name;
+        document.getElementById('header2').innerText = dataB.name;
+
+        // 4. Update the Table Rows
+        document.getElementById('cost1').innerText = dataA.cost;
+        document.getElementById('cost2').innerText = dataB.cost;
+        
+        document.getElementById('eco1').innerText = dataA.eco;
+        document.getElementById('eco2').innerText = dataB.eco;
+
+        document.getElementById('reason1').innerText = dataA.reason;
+        document.getElementById('reason2').innerText = dataB.reason;
+
+        // 5. Calculate and Show the Verdict
+        const verdictBox = document.getElementById('verdict-text');
+        if (dataA.score > dataB.score) {
+            verdictBox.innerText = "🏆 Verdict: " + dataA.name + " is the more sustainable choice!";
+        } else if (dataB.score > dataA.score) {
+            verdictBox.innerText = "🏆 Verdict: " + dataB.name + " is the more sustainable choice!";
+        } else {
+            verdictBox.innerText = "⚖️ Verdict: Both options have the same environmental impact.";
+        }
+
+        // 6. Make the results area visible
+        document.getElementById('results-area').style.display = "block";
+    }
+</script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
