@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCompare - Sustainability & Cost Tool</title>
+    <style>
+        /* CSS Variables for easy color management */
+        :root {
+            --leaf-green: #99ff99;
+            --sky-blue: #87ceeb;
+            --dark-green: #2d5a27;
+            --soft-white: #f0fdf4;
+            --border-gray: #cccccc;
+        }
+
+        /* Basic Reset and Body Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--soft-white);
+            color: #333;
+        }
+
+        /* Header / Navbar */
+        header {
+            background-color: var(--leaf-green);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--sky-blue);
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--dark-green);
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(to bottom, var(--sky-blue), var(--soft-white));
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        /* Main Comparison Tool Area */
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .compare-inputs {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .input-box {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--sky-blue);
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: var(--dark-green);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #1e3d1a;
+        }
+
+        /* Results Table */
+        .results-section {
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid var(--border-gray);
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: var(--leaf-green);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #e0e0e0;
+            margin-top: 50px;
+            font-size: 0.9rem;
+        }
+
+        /* Beginner-friendly Responsive Design */
+        @media (max-width: 600px) {
+            .compare-inputs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🌿 EcoCompare 💧</h1>
+        <p>Your First-Year Project for a Greener Tomorrow</p>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#tool">Compare Tool</a>
+            <a href="#about">Why Sustainability?</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h2>Choose Two Items to Compare</h2>
+        <p>Find out which choice is better for your wallet and the planet.</p>
+    </div>
+
+    <div class="container" id="tool">
+        <div class="compare-inputs">
+            <div class="input-box">
+                <label for="item1"><strong>Select Option A:</strong></label>
+                <select id="item1">
+                    <option value="coal">Coal Energy</option>
+                    <option value="solar" selected>Solar Power</option>
+                    <option value="plastic">Plastic Bottles</option>
+                    <option value="glass">Glass Bottles</option>
+                </select>
+            </div>
+
+            <div class="input-box">
+                <label for="item2"><strong>Select Option B:</strong></label>
+                <select id="item2">
+                    <option value="coal" selected>Coal Energy</option>
+                    <option value="solar">Solar Power</option>
+                    <option value="plastic">Plastic Bottles</option>
+                    <option value="glass">Glass Bottles</option>
+                </select>
+            </div>
+        </div>
+
+        <button onclick="compareItems()">Click to Compare Now!</button>
+
+        <div class="results-section" id="results" style="display:none;">
+            <h3>📊 Comparison Result</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th id="name1">Option A</th>
+                        <th id="name2">Option B</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Estimated Cost</strong></td>
+                        <td id="cost1">$0</td>
+                        <td id="cost2">$0</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Eco-Friendly Score</strong></td>
+                        <td id="eco1">0/10</td>
+                        <td id="eco2">0/10</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Verdict</strong></td>
+                        <td colspan="2" id="verdict">Please select items.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="container" id="about">
+        <h3>Why did I build this?</h3>
+        <p>As a first-year student, I want to show how technology can help people make better choices. Using "Green" energy might cost more at first, but it saves the planet in the long run!</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Sustainable Energy Assignment | Designed by [Your Name]</p>
+    </footer>
+
+    <script>
+        // Simple data object for the comparison
+        const data = {
+            solar: { name: "Solar Power", cost: "$$$ (High Setup)", eco: "9/10", score: 9 },
+            coal: { name: "Coal Energy", cost: "$ (Low Setup)", eco: "2/10", score: 2 },
+            plastic: { name: "Plastic Bottles", cost: "$ (Cheap)", eco: "1/10", score: 1 },
+            glass: { name: "Glass Bottles", cost: "$$ (Moderate)", eco: "7/10", score: 7 }
+        };
+
+        function compareItems() {
+            // Get values from selects
+            const val1 = document.getElementById('item1').value;
+            const val2 = document.getElementById('item2').value;
+
+            // Update Table Header Names
+            document.getElementById('name1').innerText = data[val1].name;
+            document.getElementById('name2').innerText = data[val2].name;
+
+            // Update Data
+            document.getElementById('cost1').innerText = data[val1].cost;
+            document.getElementById('cost2').innerText = data[val2].cost;
+            document.getElementById('eco1').innerText = data[val1].eco;
+            document.getElementById('eco2').innerText = data[val2].eco;
+
+            // Show Result Section
+            document.getElementById('results').style.display = "block";
+
+            // Simple Logic for Verdict
+            let verdictText = "";
+            if (data[val1].score > data[val2].score) {
+                verdictText = data[val1].name + " is more sustainable!";
+            } else if (data[val1].score < data[val2].score) {
+                verdictText = data[val2].name + " is more sustainable!";
+            } else {
+                verdictText = "Both have the same sustainability impact.";
+            }
+            document.getElementById('verdict').innerText = verdictText;
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
